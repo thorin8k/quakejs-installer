@@ -1,6 +1,6 @@
 FROM debian:11
 
-RUN apt-get install sudo curl git jq apache2 wget apt-utils screen libarchive-zip-perl zipmerge bash -y
+RUN apt-get install sudo curl git jq apache2 wget screen libarchive-zip-perl zipmerge bash -y
 
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
