@@ -38,16 +38,16 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1 ; do
     i=$((i+1))
 done 
 ###
-apt-get install sudo curl git nodejs npm jq apache2 wget apt-utils screen libarchive-zip-perl zipmerge bash -y
+# apt-get install sudo curl git nodejs npm jq apache2 wget apt-utils screen libarchive-zip-perl zipmerge bash -y
 
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+# curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
 useradd -ms /bin/bash "$createUser"
 
 cd /home/$createUser/ && git clone --recurse-submodules https://github.com/begleysm/quakejs.git
 
 cd $DIR
-cp ./scripts/ioq3ded.fixed.js /home/$createUser/quakejs/build/ioq3ded.js
+cp ./scripts/ioq3ded.fixed.$mode.js /home/$createUser/quakejs/build/ioq3ded.js
 
 cd /home/$createUser/quakejs && npm install
 
