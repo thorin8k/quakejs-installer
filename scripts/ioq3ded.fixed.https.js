@@ -9593,7 +9593,7 @@ function copyTempDouble(ptr) {
   				return opts.onload(new Error('Must provide a URL'));
   			}
   
-  			var http = require('http');
+  			var http = require('https');
   
   			http.get(url, function (res) {
   				var buf = [];
@@ -9947,7 +9947,7 @@ function copyTempDouble(ptr) {
           } else {
             // create the actual websocket object and connect
             try {
-              var url = 'wss://' + addr + ':' + port;
+              var url = 'ws://' + addr + ':' + port;
               // the node ws library API is slightly different than the browser's
               var opts = ENVIRONMENT_IS_NODE ? {headers: {'websocket-protocol': ['binary']}} : ['binary'];
               // If node we use the ws library.

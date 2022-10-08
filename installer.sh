@@ -1,27 +1,32 @@
-#!/bin/sh
+#!/bin/bash
 if [ $(id -u) -ne 0 ] 
 then 
 	echo "Please run as root (with sudo) since we need to install some tools with apt, create a new user and adjust the files in the Apache html folder..." 
 	exit 1 
 fi
-echo "In order to use the Q3A Demo to run your server you must agree to id Software's EULA\n\n"
-cat ./idSoftwareEULA
-echo ""
-while : 
-do
-	read -p "Do you agree to the EULA? (y/n): "  agree
+# echo "In order to use the Q3A Demo to run your server you must agree to id Software's EULA\n\n"
+# cat ./idSoftwareEULA
+# echo ""
+# while : 
+# do
+# 	read -p "Do you agree to the EULA? (y/n): "  agree
 
-	case $agree in
-  	  y*|Y*) break ;;
-  	  n*|N*) exit 1 ;;
-	esac
+# 	case $agree in
+#   	  y*|Y*) break ;;
+#   	  n*|N*) exit 1 ;;
+# 	esac
 	
-done
+# done
+# echo $(pwd)
+# ls -lah 
 
 DIR="$(pwd)"
 chmod +x ./scripts/*.sh
 #Read config here
 . ./installerconfig.cfg
+
+
+
 
 ###dpkg-lock-check loop from https://askubuntu.com/questions/132059/how-to-make-a-package-manager-wait-if-another-instance-of-apt-is-running
 i=0
@@ -60,11 +65,24 @@ cp /home/$createUser/quakejs/html/* /var/www/html/
 cd $DIR
 cp -f ./scripts/templates/index.html /var/www/html/
 
+
+if [ $mode = 'https' ]
+then
+cp -f ./scripts/templates/www/ioquake3.js /var/www/html
+fi
+
 #Customize Playpage
 sed -i "s/SERVERTITLE/${serverTitle}/g" /var/www/html/index.html
-sed -i "s/CONTENTSERVER/${contentServer}/g" /var/www/html/index.html
+if [ $mode = 'http' ]
+then
+sed -i "s/CONTENTSERVER/${contentProxy}/g" /var/www/html/index.html
 sed -i "s/SERVERIP/${serverAddress}/g" /var/www/html/index.html
 sed -i "s/SERVERPORT/${serverPort}/g" /var/www/html/index.html
+else 
+sed -i "s/CONTENTSERVER/${contentProxy}/g" /var/www/html/index.html
+sed -i "s/SERVERIP/${serverProxy}/g" /var/www/html/index.html
+sed -i "s/SERVERPORT/443/g" /var/www/html/index.html
+fi
 
 if [ $funnyNames = 0 ]
 then
@@ -200,10 +218,10 @@ chown -R $createUser:$createUser /home/$createUser/*
 
 #create start-scripts
 echo "#!/bin/bash" > /home/$createUser/quakejs/startscript.sh
-echo "su - quake -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $serverPort +set net_ip $serverAddress +set fs_game baseq3 +set fs_cdn '${contentServer}' +set dedicated 1 +exec server.cfg & disown\"" >> /home/$createUser/quakejs/startscript.sh
+echo "su - quake -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $serverPort +set fs_game baseq3 +set fs_cdn '${contentProxy}' +set dedicated 1 +exec server.cfg\"" >> /home/$createUser/quakejs/startscript.sh
 
 echo "#!/bin/bash" > /home/$createUser/quakejs/startcpma.sh
-echo "su - quake -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $serverPort +set net_ip $serverAddress +set fs_game cpma +set fs_cdn '${contentServer}' +set dedicated 1 +exec server.cfg & disown\"" >> /home/$createUser/quakejs/startcpma.sh
+echo "su - quake -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $serverPort +set fs_game cpma +set fs_cdn '${contentProxy}' +set dedicated 1 +exec server.cfg\"" >> /home/$createUser/quakejs/startcpma.sh
 
 #create stopscript
 echo "#!/bin/bash" > /home/$createUser/quakejs/stopscript.sh

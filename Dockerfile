@@ -1,16 +1,21 @@
 FROM debian:11
 
-RUN apt-get install sudo curl git jq apache2 wget screen libarchive-zip-perl zipmerge bash -y
+RUN apt-get update
+
+RUN apt-get install sudo curl git jq apache2 wget screen libarchive-zip-perl zipmerge bash apt-utils zip -y
 
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
-RUN apt-get install nodejs npm -y
+RUN apt-get install nodejs -y
 
 WORKDIR /quakejs
 
-COPY ./*.* /quakejs
+COPY . /quakejs/
+
+RUN chmod a+x installer.sh installerconfig.cfg
+
+RUN ./installer.sh
 
 
-
-RUN /quakejs/installer.sh
+ENTRYPOINT ["sh", "/quakejs/entry.sh"]
