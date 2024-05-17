@@ -24,7 +24,7 @@ echo 'vstr d1' >> /home/$1/quakejs/base/cratedm3/crateserver.cfg
 
 # create start-script
 echo "#!/bin/bash" > /home/$1/quakejs/startcratemod.sh
-echo "su - $1 -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $3 +set net_ip $2 +set fs_game cratedm3 +set fs_cdn $4 +set dedicated 1 +exec crateserver.cfg & disown\"" >> /home/$1/quakejs/startcratemod.sh
+echo "su - $1 -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $3 +set fs_game cratedm3 +set fs_cdn $4 +set dedicated 1 +exec crateserver.cfg\"" >> /home/$1/quakejs/startcratemod.sh
 
 chmod +x /home/$1/quakejs/startcratemod.sh
 

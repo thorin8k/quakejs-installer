@@ -11,7 +11,7 @@ chmod +r /var/www/html/assets/InstaGib129/pak100.pk3
 
 # create start-script
 echo "#!/bin/bash" > /home/$1/quakejs/startinstagib.sh
-echo "su - $1 -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $3 +set net_ip $2 +set fs_game InstaGib129 +set fs_cdn $4 +set dedicated 1 +exec server.cfg & disown\"" >> /home/$1/quakejs/startinstagib.sh
+echo "su - $1 -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $3 +set fs_game InstaGib129 +set fs_cdn $4 +set dedicated 1 +exec server.cfg\"" >> /home/$1/quakejs/startinstagib.sh
 
 chmod +x /home/$1/quakejs/startinstagib.sh
 

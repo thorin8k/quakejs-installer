@@ -8,17 +8,12 @@
 		<script type="text/javascript" src="/ioquake3.js"></script>
 			<script type="text/javascript">
 			function getQueryCommands() {
-				var search = /([^&=]+)/g;
-				var query  = window.location.search.substring(1);
+				const urlParams = new URLSearchParams(window.location.search);
+				const args = [];
 
-				var args = [];
-
-				var match;
-				while (match = search.exec(query)) {
-					var val = decodeURIComponent(match[1]);
-					val = val.split(' ');
-					val[0] = '+' + val[0];
-					args.push.apply(args, val);
+				for (const [key, value] of urlParams.entries()) {
+					args.push(`+${key}`);
+					args.push(value)
 				}
 
 				return args;

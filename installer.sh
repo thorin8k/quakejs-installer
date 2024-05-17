@@ -123,8 +123,8 @@ then
 	chmod +x ./userscripts/*
 	for userscript in ./userscripts/*.sh
 	do
-        	echo "Starting $userscript"
-		$userscript $createUser $serverAddress $serverPort $contentServer
+        echo "Starting $userscript"
+		$userscript $createUser $serverAddress $serverPort $contentProxy
 	done
 fi
 #Has the user defined custom downloads? 
@@ -197,8 +197,8 @@ service apache2 restart
 cp ./serverconfigs/*.cfg ./temp
 for serverconfig in ./temp/*.cfg
 do
-        echo "seta bot_enable 1" >> $serverconfig
-        echo "seta bot_minPlayers $bots" >> $serverconfig
+    echo "seta bot_enable 1" >> $serverconfig
+    echo "seta bot_minPlayers $bots" >> $serverconfig
 	echo "seta cg_gibs $gore" >> $serverconfig
 	echo "seta com_blood $gore" >> $serverconfig
 	echo "seta rconpassword \"$rconPassword\"" >> $serverconfig
@@ -209,7 +209,17 @@ do
 	echo "seta sv_hostname \"$hostname\"" >> $serverconfig
 	echo "seta sv_maxclients $maxclients" >> $serverconfig
 	# create mapcycles TODO: if custoMapsOnly =0 include the maps in pak0 in mapcycle
-	./scripts/mapCycler.sh $(ls /var/www/html/assets/$(basename --suffix=".cfg" $serverconfig)/*.pk3) >> $serverconfig
+	#./scripts/mapCycler.sh $(ls /var/www/html/assets/$(basename --suffix=".cfg" $serverconfig)/*.pk3) >> $serverconfig
+	# echo "set d1 \"map q3dm1 ; set nextmap vstr d2\"" >> $serverconfig
+	# echo "set d2 \"map q3dm7 ; set nextmap vstr d3\"" >> $serverconfig
+	# echo "set d3 \"map q3dm17 ; set nextmap vstr d4\"" >> $serverconfig
+	# echo "set d4 \"map pro-q3tourney2 ; set nextmap vstr d5\"" >> $serverconfig
+	# echo "set d5 \"map pro-q3tourney4 ; set nextmap vstr d6\"" >> $serverconfig
+	# echo "set d6 \"map pro-q3dm6 ; set nextmap vstr d7\"" >> $serverconfig
+	# echo "set d7 \"map pro-q3dm13 ; set nextmap vstr d8\"" >> $serverconfig
+	# echo "set d8 \"map q3tourney2 ; set nextmap vstr d1\"" >> $serverconfig
+	echo "set d1 \"map q3dm17 ; set nextmap vstr d1\"" >> $serverconfig
+	echo "vstr d1" >> $serverconfig
 	ls /home/$createUser/quakejs/base/$(basename --suffix=".cfg" $serverconfig) || mkdir /home/$createUser/quakejs/base/$(basename --suffix=".cfg" $serverconfig)
 	mv -f $serverconfig /home/$createUser/quakejs/base/$(basename --suffix=".cfg" $serverconfig)/server.cfg
 done

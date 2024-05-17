@@ -1122,8 +1122,8 @@ var __ATPOSTRUN__ = []; // functions called after the runtime has exited
 
 var runtimeInitialized = false;
 
+// compatibility - merge in anything from Module['preRun'] at this time
 function preRun() {
-  // compatibility - merge in anything from Module['preRun'] at this time
   if (Module['preRun']) {
     if (typeof Module['preRun'] == 'function') Module['preRun'] = [Module['preRun']];
     while (Module['preRun'].length) {

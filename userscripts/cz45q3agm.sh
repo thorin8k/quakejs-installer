@@ -71,7 +71,7 @@ chmod +r /var/www/html/assets/cz45q3agm/*
 
 # create start-script
 echo "#!/bin/bash" > /home/$1/quakejs/startcz45q3agm.sh
-echo "su - $1 -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $3 +set net_ip $2 +set fs_game cz45q3agm +set fs_cdn $4 +set r_railCoreWidth 13 +set cg_shadows 1 +set r_railWidth 8 +set dedicated 1 +set r_ignorehwgamma 1 +set cg_oldRail 1 +set cg_oldPlasma 1 +set cg_oldRocket 1 +set cg_draw3dicons 0 +set cg_oldRail 1 +set cg_truelightning 1 +exec server.cfg & disown\"" >> /home/$1/quakejs/startcz45q3agm.sh
+echo "su - $1 -c \"cd ~/quakejs && node build/ioq3ded.js +set net_port $3 +set fs_game cz45q3agm +set fs_cdn $4 +set r_railCoreWidth 13 +set cg_shadows 1 +set r_railWidth 8 +set dedicated 1 +set r_ignorehwgamma 1 +set cg_oldRail 1 +set cg_oldPlasma 1 +set cg_oldRocket 1 +set cg_draw3dicons 0 +set cg_oldRail 1 +set cg_truelightning 1 +exec server.cfg\"" >> /home/$1/quakejs/startcz45q3agm.sh
 
 chmod +x /home/$1/quakejs/startcz45q3agm.sh
 
