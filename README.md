@@ -1,4 +1,51 @@
-# quakejs-installer
+# QuakeJS - Docker Image Builder
+
+This project is a fork of quakejs-installer which builds a custom docker image.
+
+Currently, the project builds an statically configured image based on the installerconfig.cfg file. This should be improved in the future.
+
+
+## Quick start
+
+Steps for quick start:
+- Download this repo
+- Modify installerconfig.cfg with your props
+- Run ./build.sh to create the betterquakejs image
+
+
+Create a docker-compose.yml file with the following content:
+
+``` yaml
+version: "3.6"
+services:
+  betterquakejs:
+    container_name: "betterquakejs"
+    entrypoint:
+      - "sh"
+      - "/quakejs/entry.sh"
+
+    image: "betterquakejs:latest"
+    network_mode: "bridge"
+    ports:
+      - "27960:27960/tcp"
+      - "3678:80/tcp"
+    working_dir: "/quakejs"
+
+```
+
+Important settings are:
+- mode: http or https based on the desired final configuration
+
+> The system can be used behind a reverse proxy by exposing two separate domains and ports.
+> This can be like quake.xxx.com and quakews.xxx.com, its important to configure the reverse proxy with websocket support. I've been using
+> nginx proxy manager for that
+
+
+Also, by changing the entrypoint you can use, for example the `entry_instagib` to run a instagib version of the server.
+
+
+
+# quakejs-installer Docs
 The goal of this project is to make installing your own quakejs-server easy :)
 
 Feature list:
